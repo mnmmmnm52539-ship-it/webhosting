@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vsualizers</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visualizers</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
@@ -45,7 +45,7 @@
             animation: glow-spin2 5s linear infinite;
         }
         @keyframes glow-spin2 {
-            to {transform: rotate(360deg);}
+            to { transform: rotate(360deg); }
         }
         .skill-chip {
             border: 2px solid #06b6d4;
@@ -93,8 +93,7 @@
         }
     </script>
 </head>
-<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-100 via-cyan-300 to-blue-50 dark:from-gray-900 dark:via-teal-900 dark:to-gray-900 text-gray-900 dark:text-gray-100 font-inter transition-colors duration-500">
-
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-100 via-cyan-300 to-blue-50 dark:from-gray-900 dark:via-teal-900 dark:to-gray-900 text-gray-900 dark:text-gray-100">
     <main class="w-full py-12">
         <header class="w-full max-w-4xl mx-auto mb-2 px-4 flex justify-between items-center sticky top-0 z-30 bg-transparent">
             <a href="index.html" class="back-link flex items-center gap-2 text-lg font-bold text-cyan-600 dark:text-teal-300">
@@ -104,136 +103,318 @@
                 Back To Main
             </a>
         </header>
-        
 
+        <!-- ================= INTERACTIVE VISUALIZERS ================= -->
+        <section class="card p-6 bg-white rounded-xl shadow max-w-4xl mx-auto">
+            <h2 class="text-xl font-bold">Interactive Visualizers</h2>
+            <p class="text-sm text-gray-600">Use the controls below to interact with the data structures.</p>
 
-<!-- ================= INTERACTIVE VISUALIZERS ================= -->
-<section class="card p-6 bg-white rounded-xl shadow">
-  <h2 class="text-xl font-bold">Interactive Visualizers</h2>
-  <p class="text-sm text-gray-600">Use the controls below to interact with the data structures.</p>
+            <!-- STACK -->
+            <div class="mt-6">
+                <h3 class="font-semibold">Stack (LIFO)</h3>
+                <div class="flex gap-2 mt-2">
+                    <!-- inputmode + maxlength to limit typing to up to 5 digits; we'll also validate in JS -->
+                    <input id="stackInput" inputmode="numeric" maxlength="5" class="border rounded px-2 py-1" placeholder="numeric value (max 5 digits)">
+                    <button id="stackPushBtn" class="px-3 py-1 bg-teal-500 text-white rounded">Push</button>
+                    <button id="stackPopBtn" class="px-3 py-1 bg-rose-500 text-white rounded">Pop</button>
+                    <button id="stackClearBtn" class="px-3 py-1 bg-gray-300 rounded">Clear</button>
+                    <div id="stackNotice" class="text-sm text-red-600 pl-3"></div>
+                </div>
+                <div id="stackBox" class="mt-3 flex flex-col-reverse gap-1 border p-3 rounded max-h-[200px] overflow-y-auto"></div>
+                <div class="text-xs text-gray-500 mt-1">Max items: 5</div>
+            </div>
 
-  <!-- STACK -->
-  <div class="mt-6">
-    <h3 class="font-semibold">Stack (LIFO)</h3>
-    <div class="flex gap-2 mt-2">
-      <input id="stackInput" class="border rounded px-2 py-1" placeholder="value">
-      <button onclick="stackPush()" class="px-3 py-1 bg-teal-500 text-white rounded">Push</button>
-      <button onclick="stackPop()" class="px-3 py-1 bg-rose-500 text-white rounded">Pop</button>
-      <button onclick="stackClear()" class="px-3 py-1 bg-gray-300 rounded">Clear</button>
-    </div>
-     <div id="stackBox" class="mt-3 flex flex-col-reverse gap-1 border p-3 rounded max-h-[200px] overflow-y-auto">
-        
-    </div>
-     <!-- max-h limits height; overflow-y allows scrolling when items exceed container -->
-  </div>
+            <!-- QUEUE -->
+            <div class="mt-8">
+                <h3 class="font-semibold">Queue (FIFO)</h3>
+                <div class="flex gap-2 mt-2">
+                    <input id="queueInput" inputmode="numeric" maxlength="5" class="border rounded px-2 py-1" placeholder="numeric value (max 5 digits)">
+                    <button id="queueEnqBtn" class="px-3 py-1 bg-teal-500 text-white rounded">Enqueue</button>
+                    <button id="queueDeqBtn" class="px-3 py-1 bg-rose-500 text-white rounded">Dequeue</button>
+                    <button id="queueClearBtn" class="px-3 py-1 bg-gray-300 rounded">Clear</button>
+                    <div id="queueNotice" class="text-sm text-red-600 pl-3"></div>
+                </div>
+                <div id="queueBox" class="mt-3 flex gap-1 border p-3 rounded min-h-[60px]"></div>
+                <div class="text-xs text-gray-500 mt-1">Max items: 5</div>
+            </div>
 
-  <!-- QUEUE -->
-  <div class="mt-8">
-    <h3 class="font-semibold">Queue (FIFO)</h3>
-    <div class="flex gap-2 mt-2">
-      <input id="queueInput" class="border rounded px-2 py-1" placeholder="value">
-      <button onclick="queueEnq()" class="px-3 py-1 bg-teal-500 text-white rounded">Enqueue</button>
-      <button onclick="queueDeq()" class="px-3 py-1 bg-rose-500 text-white rounded">Dequeue</button>
-      <button onclick="queueClear()" class="px-3 py-1 bg-gray-300 rounded">Clear</button>
-    </div>
-    <div id="queueBox" class="mt-3 flex gap-1 border p-3 rounded min-h-[60px]"></div>
-  </div>
+            <!-- BINARY SEARCH TREE -->
+            <div class="mt-8">
+                <h3 class="font-semibold">Binary Search Tree (BST)</h3>
+                <div class="flex flex-wrap gap-2 mt-2">
+                    <input id="treeInput" class="border rounded px-2 py-1" placeholder="numeric value">
+                    <button id="treeInsertBtn" class="px-3 py-1 bg-teal-500 text-white rounded">Insert</button>
+                    <button id="inorderBtn" class="px-3 py-1 bg-indigo-500 text-white rounded">Inorder</button>
+                    <button id="preorderBtn" class="px-3 py-1 bg-indigo-500 text-white rounded">Preorder</button>
+                    <button id="postorderBtn" class="px-3 py-1 bg-indigo-500 text-white rounded">Postorder</button>
+                    <button id="treeClearBtn" class="px-3 py-1 bg-gray-300 rounded">Clear</button>
+                </div>
+                <div id="treeBox" class="mt-3 flex gap-2 flex-wrap border p-3 rounded min-h-[70px]"></div>
+            </div>
+        </section>
 
-  <!-- BINARY SEARCH TREE -->
-  <div class="mt-8">
-    <h3 class="font-semibold">Binary Search Tree (BST)</h3>
-    <div class="flex flex-wrap gap-2 mt-2">
-      <input id="treeInput" class="border rounded px-2 py-1" placeholder="numeric value">
-      <button onclick="treeInsert()" class="px-3 py-1 bg-teal-500 text-white rounded">Insert</button>
-      <button onclick="showTraversal('in')" class="px-3 py-1 bg-indigo-500 text-white rounded">Inorder</button>
-      <button onclick="showTraversal('pre')" class="px-3 py-1 bg-indigo-500 text-white rounded">Preorder</button>
-      <button onclick="showTraversal('post')" class="px-3 py-1 bg-indigo-500 text-white rounded">Postorder</button>
-      <button onclick="treeClear()" class="px-3 py-1 bg-gray-300 rounded">Clear</button>
-    </div>
-    <div id="treeBox" class="mt-3 flex gap-2 flex-wrap border p-3 rounded min-h-[70px]"></div>
-  </div>
-</section>
+        <script>
+            // Wait until DOM loaded to bind elements
+            document.addEventListener('DOMContentLoaded', () => {
+                // Elements
+                const stackInput = document.getElementById('stackInput');
+                const stackBox = document.getElementById('stackBox');
+                const stackPushBtn = document.getElementById('stackPushBtn');
+                const stackPopBtn = document.getElementById('stackPopBtn');
+                const stackClearBtn = document.getElementById('stackClearBtn');
+                const stackNotice = document.getElementById('stackNotice');
 
-<script>
-/* ================= STACK ================= */
-let stack = [];
-function stackPush(){
-  const v = stackInput.value.trim();
-  if(!v) return alert('Enter a value');
-  stack.push(v); stackInput.value=''; renderStack();
-  
-}
-function stackPop(){ if(!stack.length) return alert('Stack is empty'); stack.pop(); renderStack(); }
-function stackClear(){ stack=[]; renderStack(); }
-function renderStack(){
-  stackBox.innerHTML='';
-  for(let i=stack.length-1;i>=0;i--){
-    const d=document.createElement('div'); d.className='px-3 py-1 bg-blue-200 rounded text-center'; d.textContent=stack[i];
-    stackBox.appendChild(d);
-  }
-}
+                const queueInput = document.getElementById('queueInput');
+                const queueBox = document.getElementById('queueBox');
+                const queueEnqBtn = document.getElementById('queueEnqBtn');
+                const queueDeqBtn = document.getElementById('queueDeqBtn');
+                const queueClearBtn = document.getElementById('queueClearBtn');
+                const queueNotice = document.getElementById('queueNotice');
 
-/* ================= QUEUE ================= */
-let queue = [];
-function queueEnq(){ const v=queueInput.value.trim(); if(!v) return alert('Enter a value'); queue.push(v); queueInput.value=''; renderQueue(); }
-function queueDeq(){ if(!queue.length) return alert('Queue is empty'); queue.shift(); renderQueue(); }
-function queueClear(){ queue=[]; renderQueue(); }
-function renderQueue(){
-  queueBox.innerHTML='';
-  queue.forEach(v=>{ const d=document.createElement('div'); d.className='px-3 py-1 bg-green-200 rounded'; d.textContent=v; queueBox.appendChild(d); });
-}
+                const treeInput = document.getElementById('treeInput');
+                const treeBox = document.getElementById('treeBox');
+                const treeInsertBtn = document.getElementById('treeInsertBtn');
+                const treeClearBtn = document.getElementById('treeClearBtn');
+                const inorderBtn = document.getElementById('inorderBtn');
+                const preorderBtn = document.getElementById('preorderBtn');
+                const postorderBtn = document.getElementById('postorderBtn');
 
-/* ================= BST ================= */
-class Node{ constructor(v){ this.v=v; this.l=null; this.r=null; }}
-let root=null;
-function insert(n,v){ if(!n) return new Node(v); if(v<n.v) n.l=insert(n.l,v); else n.r=insert(n.r,v); return n; }
-function treeInsert(){ const v=Number(treeInput.value); if(isNaN(v)) return alert('Enter a number'); root=insert(root,v); treeInput.value=''; renderTree(); }
-function treeClear(){ root=null; renderTree(); }
-function renderTree(){ treeBox.innerHTML=''; (function pre(n){ if(!n) return; const d=document.createElement('div'); d.className='px-3 py-1 bg-purple-200 rounded'; d.textContent=n.v; treeBox.appendChild(d); pre(n.l); pre(n.r); })(root); }
-function inorder(n,a){ if(!n) return; inorder(n.l,a); a.push(n.v); inorder(n.r,a);} 
-function preorder(n,a){ if(!n) return; a.push(n.v); preorder(n.l,a); preorder(n.r,a);} 
-function postorder(n,a){ if(!n) return; postorder(n.l,a); postorder(n.r,a); a.push(n.v);} 
-function showTraversal(t){ if(!root) return alert('Tree is empty'); const a=[]; if(t==='in') inorder(root,a); if(t==='pre') preorder(root,a); if(t==='post') postorder(root,a); alert(t.toUpperCase()+': '+a.join(', ')); }
-</script>
+                // Settings
+                const MAX_ITEMS = 5;
 
-<!-- ================= DATA STRUCTURES (CODE EXAMPLES) ================= -->
-<section id="datastructures" class="p-6 mt-10 bg-gray-50 rounded-xl">
-  <h2 class="text-2xl font-bold mb-4">Data Structures Implementations</h2>
+                // STACK (LIFO)
+                let stack = [];
 
-  <div class="mb-6">
-    <h3 class="font-semibold text-lg">Array (C++)</h3>
-<pre class="bg-gray-900 text-white p-3 rounded"><code>#include <iostream>
+                function updateStackControls() {
+                    stackPushBtn.disabled = stack.length >= MAX_ITEMS;
+                    stackPopBtn.disabled = stack.length === 0;
+                    stackNotice.textContent = stack.length >= MAX_ITEMS ? 'Overflow: stack has reached max (5).' : '';
+                }
+
+                function renderStack() {
+                    stackBox.innerHTML = '';
+                    for (let i = stack.length - 1; i >= 0; i--) {
+                        const d = document.createElement('div');
+                        d.className = 'px-3 py-1 bg-blue-200 rounded text-center';
+                        d.textContent = stack[i];
+                        stackBox.appendChild(d);
+                    }
+                    updateStackControls();
+                }
+
+                function stackPush() {
+                    const v = stackInput.value.trim();
+                    if (!/^-?\d+$/.test(v)) {
+                        alert('Enter a valid integer number.');
+                        return;
+                    }
+                    if (stack.length >= MAX_ITEMS) {
+                        alert('Stack overflow: maximum of ' + MAX_ITEMS + ' items allowed.');
+                        updateStackControls();
+                        return;
+                    }
+                    stack.push(Number(v));
+                    stackInput.value = '';
+                    renderStack();
+                }
+
+                function stackPop() {
+                    if (!stack.length) {
+                        alert('Stack is empty');
+                        return;
+                    }
+                    stack.pop();
+                    renderStack();
+                }
+
+                function stackClear() {
+                    stack = [];
+                    renderStack();
+                }
+
+                // QUEUE (FIFO)
+                let queue = [];
+
+                function updateQueueControls() {
+                    queueEnqBtn.disabled = queue.length >= MAX_ITEMS;
+                    queueDeqBtn.disabled = queue.length === 0;
+                    queueNotice.textContent = queue.length >= MAX_ITEMS ? 'Overflow: queue has reached max (5).' : '';
+                }
+
+                function renderQueue() {
+                    queueBox.innerHTML = '';
+                    queue.forEach(v => {
+                        const d = document.createElement('div');
+                        d.className = 'px-3 py-1 bg-green-200 rounded';
+                        d.textContent = v;
+                        queueBox.appendChild(d);
+                    });
+                    updateQueueControls();
+                }
+
+                function queueEnq() {
+                    const v = queueInput.value.trim();
+                    if (!/^-?\d+$/.test(v)) {
+                        alert('Enter a valid integer number.');
+                        return;
+                    }
+                    if (queue.length >= MAX_ITEMS) {
+                        alert('Queue overflow: maximum of ' + MAX_ITEMS + ' items allowed.');
+                        updateQueueControls();
+                        return;
+                    }
+                    queue.push(Number(v));
+                    queueInput.value = '';
+                    renderQueue();
+                }
+
+                function queueDeq() {
+                    if (!queue.length) {
+                        alert('Queue is empty');
+                        return;
+                    }
+                    queue.shift();
+                    renderQueue();
+                }
+
+                function queueClear() {
+                    queue = [];
+                    renderQueue();
+                }
+
+                // BINARY SEARCH TREE (simple implementation)
+                class Node {
+                    constructor(v) {
+                        this.v = v;
+                        this.l = null;
+                        this.r = null;
+                    }
+                }
+                let root = null;
+
+                function insertNode(n, v) {
+                    if (!n) return new Node(v);
+                    if (v < n.v) n.l = insertNode(n.l, v);
+                    else n.r = insertNode(n.r, v);
+                    return n;
+                }
+
+                function treeInsert() {
+                    const v = Number(treeInput.value);
+                    if (isNaN(v)) {
+                        alert('Enter a number');
+                        return;
+                    }
+                    root = insertNode(root, v);
+                    treeInput.value = '';
+                    renderTree();
+                }
+
+                function treeClear() {
+                    root = null;
+                    renderTree();
+                }
+
+                function renderTree() {
+                    treeBox.innerHTML = '';
+                    // simple pre-order layout: just show nodes as chips
+                    (function traverse(n) {
+                        if (!n) return;
+                        const d = document.createElement('div');
+                        d.className = 'px-3 py-1 bg-purple-200 rounded';
+                        d.textContent = n.v;
+                        treeBox.appendChild(d);
+                        traverse(n.l);
+                        traverse(n.r);
+                    })(root);
+                }
+
+                function inorder(n, a) {
+                    if (!n) return;
+                    inorder(n.l, a);
+                    a.push(n.v);
+                    inorder(n.r, a);
+                }
+                function preorder(n, a) {
+                    if (!n) return;
+                    a.push(n.v);
+                    preorder(n.l, a);
+                    preorder(n.r, a);
+                }
+                function postorder(n, a) {
+                    if (!n) return;
+                    postorder(n.l, a);
+                    postorder(n.r, a);
+                    a.push(n.v);
+                }
+                function showTraversal(t) {
+                    if (!root) return alert('Tree is empty');
+                    const a = [];
+                    if (t === 'in') inorder(root, a);
+                    if (t === 'pre') preorder(root, a);
+                    if (t === 'post') postorder(root, a);
+                    alert(t.toUpperCase() + ': ' + a.join(', '));
+                }
+
+                // Attach events
+                stackPushBtn.addEventListener('click', stackPush);
+                stackPopBtn.addEventListener('click', stackPop);
+                stackClearBtn.addEventListener('click', stackClear);
+
+                queueEnqBtn.addEventListener('click', queueEnq);
+                queueDeqBtn.addEventListener('click', queueDeq);
+                queueClearBtn.addEventListener('click', queueClear);
+
+                treeInsertBtn.addEventListener('click', treeInsert);
+                treeClearBtn.addEventListener('click', treeClear);
+                inorderBtn.addEventListener('click', () => showTraversal('in'));
+                preorderBtn.addEventListener('click', () => showTraversal('pre'));
+                postorderBtn.addEventListener('click', () => showTraversal('post'));
+
+                // initialize UI
+                renderStack();
+                renderQueue();
+                renderTree();
+            });
+        </script>
+
+        <!-- ================= DATA STRUCTURES (CODE EXAMPLES) ================= -->
+        <section id="datastructures" class="p-6 mt-10 bg-gray-50 rounded-xl max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold mb-4">Data Structures Implementations</h2>
+
+            <div class="mb-6">
+                <h3 class="font-semibold text-lg">Array (C++)</h3>
+                <pre class="bg-gray-900 text-white p-3 rounded"><code>#include &lt;iostream&gt;
 using namespace std;
-int main(){ int a[5]={1,2,3,4,5}; for(int i=0;i<5;i++) cout<<a[i]<<" "; }
-</code></pre>
-  </div>
+int main(){ int a[5]={1,2,3,4,5}; for(int i=0;i<5;i++) cout&lt;&lt;a[i]&lt;&lt;" "; }</code></pre>
+            </div>
 
-  <div class="mb-6">
-    <h3 class="font-semibold text-lg">Stack (Python)</h3>
-<pre class="bg-gray-900 text-white p-3 rounded"><code>stack=[]
+            <div class="mb-6">
+                <h3 class="font-semibold text-lg">Stack (Python)</h3>
+                <pre class="bg-gray-900 text-white p-3 rounded"><code>stack=[]
 stack.append(10)
 stack.append(20)
-print(stack.pop())
-</code></pre>
-  </div>
+print(stack.pop())</code></pre>
+            </div>
 
-  <div class="mb-6">
-    <h3 class="font-semibold text-lg">Queue (Python)</h3>
-<pre class="bg-gray-900 text-white p-3 rounded"><code>from collections import deque
+            <div class="mb-6">
+                <h3 class="font-semibold text-lg">Queue (Python)</h3>
+                <pre class="bg-gray-900 text-white p-3 rounded"><code>from collections import deque
 q=deque()
 q.append(1)
 q.append(2)
-print(q.popleft())
-</code></pre>
-  </div>
+print(q.popleft())</code></pre>
+            </div>
 
-  <div>
-    <h3 class="font-semibold text-lg">Binary Tree Traversal (Python)</h3>
-<pre class="bg-gray-900 text-white p-3 rounded"><code>def inorder(n):
+            <div>
+                <h3 class="font-semibold text-lg">Binary Tree Traversal (Python)</h3>
+                <pre class="bg-gray-900 text-white p-3 rounded"><code>def inorder(n):
     if n:
         inorder(n.left)
         print(n.data)
-        inorder(n.right)
-</code></pre>
-  </div>
-</section>
+        inorder(n.right)</code></pre>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

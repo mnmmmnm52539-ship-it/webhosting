@@ -83,6 +83,7 @@
         #treeBox {
             min-height: 120px;
             padding: 12px;
+            position: relative; /* needed for connector SVG positioning */
         }
         .tree-level {
             width: 100%;
@@ -97,6 +98,7 @@
             align-items: center;
             position: relative;
             min-width: 56px; /* keeps layout stable */
+            z-index: 2; /* so nodes are above connector SVG */
         }
         .tree-node {
             width: 48px;
@@ -332,15 +334,19 @@
                     renderQueue();
                 }
 
-                // BINARY SEARCH TREE (simple implementation)
+                // BINARY SEARCH TREE (simple implementation) with visual connectors
                 class Node {
                     constructor(v) {
                         this.v = v;
                         this.l = null;
                         this.r = null;
+                        this.id = Node._nextId++;
                     }
                 }
+                Node._nextId = 1;
+
                 let root = null;
+                let lastLevels = null; // keep latest levels for redraws
 
                 function insertNode(n, v) {
                     if (!n) return new Node(v);
@@ -350,11 +356,12 @@
                 }
 
                 function treeInsert() {
-                    const v = Number(treeInput.value);
-                    if (isNaN(v)) {
-                        alert('Enter a number');
+                    const raw = treeInput.value.trim();
+                    if (!/^-?\d+$/.test(raw)) {
+                        alert('Enter a valid integer number.');
                         return;
                     }
+                    const v = Number(raw);
                     root = insertNode(root, v);
                     treeInput.value = '';
                     renderTree();
@@ -365,10 +372,13 @@
                     renderTree();
                 }
 
-                // New: render tree as rows of circular nodes (level-order)
+                // New: render tree as rows of circular nodes (level-order) and draw SVG connectors
                 function renderTree() {
                     treeBox.innerHTML = '';
-                    if (!root) return;
+                    if (!root) {
+                        lastLevels = null;
+                        return;
+                    }
 
                     // build levels via BFS
                     const levels = [];
@@ -392,9 +402,11 @@
                             const nd = document.createElement('div');
                             nd.className = 'tree-node';
                             nd.textContent = n.v;
+                            // store mapping to node id so we can measure later
+                            nd.dataset.nodeId = n.id;
                             wrap.appendChild(nd);
 
-                            // small connector if node has children
+                            // small connector if node has children (keeps spacing consistent)
                             if (n.l || n.r) {
                                 const conn = document.createElement('div');
                                 conn.className = 'connector';
@@ -410,8 +422,96 @@
                         });
                         treeBox.appendChild(row);
                     });
+
+                    // draw connectors after layout
+                    lastLevels = levels;
+                    // use requestAnimationFrame to ensure DOM layout computed
+                    requestAnimationFrame(() => drawConnectors(levels));
                 }
 
+                // draw smooth curved connectors between parent and child using an SVG overlay
+                function drawConnectors(levels) {
+                    // remove existing svg if present
+                    const prev = treeBox.querySelector('svg.tree-connectors');
+                    if (prev) prev.remove();
+
+                    if (!levels || !levels.length) return;
+
+                    // create svg overlay
+                    const svgNS = 'http://www.w3.org/2000/svg';
+                    const svg = document.createElementNS(svgNS, 'svg');
+                    svg.classList.add('tree-connectors');
+                    svg.setAttribute('width', '100%');
+                    // set height to the scrollHeight so it covers everything
+                    const height = Math.max(treeBox.scrollHeight, treeBox.clientHeight);
+                    svg.setAttribute('height', height);
+                    svg.setAttribute('viewBox', `0 0 ${treeBox.clientWidth} ${height}`);
+                    svg.style.position = 'absolute';
+                    svg.style.left = '0';
+                    svg.style.top = '0';
+                    svg.style.overflow = 'visible';
+                    svg.style.zIndex = '1'; // below node-wrap (which has z-index:2)
+                    treeBox.appendChild(svg);
+
+                    const containerRect = treeBox.getBoundingClientRect();
+
+                    // helper to find element by node id
+                    function findElemByNodeId(id) {
+                        return treeBox.querySelector(`[data-node-id="${id}"]`);
+                    }
+
+                    // for each node, draw to its left and right children if present
+                    levels.forEach((nodes) => {
+                        nodes.forEach(n => {
+                            if (n.l) drawEdge(n.id, n.l.id);
+                            if (n.r) drawEdge(n.id, n.r.id);
+                        });
+                    });
+
+                    function drawEdge(parentId, childId) {
+                        const pEl = findElemByNodeId(parentId);
+                        const cEl = findElemByNodeId(childId);
+                        if (!pEl || !cEl) return;
+
+                        const pRect = pEl.getBoundingClientRect();
+                        const cRect = cEl.getBoundingClientRect();
+
+                        // compute coordinates relative to svg's coordinate system (treeBox top-left = 0,0)
+                        const x1 = (pRect.left + pRect.width / 2) - containerRect.left;
+                        const y1 = (pRect.top + pRect.height) - containerRect.top; // bottom of parent node
+                        const x2 = (cRect.left + cRect.width / 2) - containerRect.left;
+                        const y2 = (cRect.top) - containerRect.top; // top of child node
+
+                        // control points for a smooth cubic curve
+                        const midY = (y1 + y2) / 2;
+                        const cp1x = x1;
+                        const cp1y = midY;
+                        const cp2x = x2;
+                        const cp2y = midY;
+
+                        const path = document.createElementNS(svgNS, 'path');
+                        const d = `M ${x1} ${y1} C ${cp1x} ${cp1y} ${cp2x} ${cp2y} ${x2} ${y2}`;
+                        path.setAttribute('d', d);
+                        path.setAttribute('fill', 'none');
+                        path.setAttribute('stroke', 'rgba(124,58,237,0.9)');
+                        path.setAttribute('stroke-width', '2.5');
+                        path.setAttribute('stroke-linecap', 'round');
+                        path.setAttribute('stroke-linejoin', 'round');
+                        // subtle shadow
+                        path.style.filter = 'drop-shadow(0 2px 4px rgba(99,102,241,0.08))';
+                        svg.appendChild(path);
+                    }
+                }
+
+                // redraw connectors when window resizes or when the tree container is scrolled
+                window.addEventListener('resize', () => {
+                    if (lastLevels) requestAnimationFrame(() => drawConnectors(lastLevels));
+                });
+                treeBox.addEventListener('scroll', () => {
+                    if (lastLevels) requestAnimationFrame(() => drawConnectors(lastLevels));
+                });
+
+                // traversal helpers
                 function inorder(n, a) {
                     if (!n) return;
                     inorder(n.l, a);
@@ -453,6 +553,11 @@
                 inorderBtn.addEventListener('click', () => showTraversal('in'));
                 preorderBtn.addEventListener('click', () => showTraversal('pre'));
                 postorderBtn.addEventListener('click', () => showTraversal('post'));
+
+                // allow hitting Enter for each control (convenience)
+                stackInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') stackPush(); });
+                queueInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') queueEnq(); });
+                treeInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') treeInsert(); });
 
                 // initialize UI
                 renderStack();

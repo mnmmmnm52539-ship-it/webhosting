@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithms</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
+            box-shadow: 0 12px 32px rgba(6,182,212,0.13), 0 1.5px 12px rgba(45,212,191,0.06);
+        }
+        .dark .glass {
+            background: rgba(21, 28, 35, 0.82);
+            box-shadow: 0 12px 32px rgba(20,184,166,0.17), 0 1.5px 12px rgba(34,197,94,0.08);
+        }
+        .frost-border {
+            border: 4px solid rgba(255,255,255,0.95);
+        }
+        .dark .frost-border {
+            border: 4px solid rgba(31, 41, 55, 0.7);
+        }
+        .avatar-glow {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 9999px;
+            z-index: -1;
+            pointer-events: none;
+            background: conic-gradient(
+                from 90deg at 58% 50%,
+                #06b6d4 0deg,
+                #14b8a6 45deg,
+                #a5f3fc 180deg,
+                #0f766e 270deg,
+                #06b6d4 360deg
+            );
+            opacity: 0.22;
+            filter: blur(16px);
+            animation: glow-spin2 5s linear infinite;
+        }
+        @keyframes glow-spin2 {
+            to {transform: rotate(360deg);}
+        }
+        .skill-chip {
+            border: 2px solid #06b6d4;
+            background: rgba(6,182,212,0.09);
+            color: #164e63;
+            padding: 0.35em 1.05em;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.98em;
+            margin-bottom: 0.3em;
+            margin-right: 0.4em;
+            display: inline-block;
+            transition: border 0.2s, background 0.2s, color 0.2s, transform .18s;
+        }
+        .skill-chip:hover {
+            border: 2.5px solid #22d3ee;
+            background: #a5f3fc;
+            color: #075985;
+            transform: scale(1.07);
+        }
+        .dark .skill-chip {
+            border: 2px solid #14b8a6;
+            background: rgba(13,148,136,0.13);
+            color: #a7f3d0;
+        }
+        .dark .skill-chip:hover {
+            border: 2.5px solid #34d399;
+            background: #115e59;
+            color: #6ee7b7;
+        }
+        .back-link { transition: all 0.2s; }
+        .back-link:hover { transform: translateX(-6px) scale(1.07); }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#06b6d4',
+                        'primary-dark': '#0d9488'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-100 via-cyan-300 to-blue-50 dark:from-gray-900 dark:via-teal-900 dark:to-gray-900 text-gray-900 dark:text-gray-100 font-inter transition-colors duration-500">
+
+    <main class="w-full py-12">
+        <header class="w-full max-w-4xl mx-auto mb-2 px-4 flex justify-between items-center sticky top-0 z-30 bg-transparent">
+            <a href="index.html" class="back-link flex items-center gap-2 text-lg font-bold text-cyan-600 dark:text-teal-300">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Back To Main
+            </a>
+        </header>
+        
+
+<!-- Algorithms Section -->
+<section id="algorithms" class="p-6">
+  <h2 class="text-2xl font-bold mb-4">10 Algorithms</h2>
+  <ol class="list-decimal list-inside space-y-2">
+    <li>Linear Search</li>
+    <li>Binary Search</li>
+    <li>Bubble Sort</li>
+    <li>Insertion Sort</li>
+    <li>Selection Sort</li>
+    <li>Merge Sort</li>
+    <li>Quick Sort</li>
+    <li>Heap Sort</li>
+    <li>Dijkstra's Algorithm</li>
+    <li>Fibonacci Sequence</li>
+  </ol>
+</section>
+
+<section class="p-6">
+
+<!-- 1. Linear Search -->
+<h2 class="text-2xl font-bold mb-4">1. Linear Search</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+For i = 0 to n - 1
+    If array[i] == target
+        Return i
+Return -1
+</code></pre>
+
+<!-- 2. Binary Search -->
+<h2 class="text-2xl font-bold mt-8 mb-4">2. Binary Search</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+Set low = 0, high = n - 1
+While low ≤ high
+    mid = (low + high) / 2
+    If array[mid] == target
+        Return mid
+    Else if array[mid] < target
+        low = mid + 1
+    Else
+        high = mid - 1
+Return -1
+</code></pre>
+
+<!-- 3. Bubble Sort -->
+<h2 class="text-2xl font-bold mt-8 mb-4">3. Bubble Sort</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+For i = 0 to n - 1
+    For j = 0 to n - i - 2
+        If array[j] > array[j + 1]
+            Swap array[j] and array[j + 1]
+</code></pre>
+
+<!-- 4. Insertion Sort -->
+<h2 class="text-2xl font-bold mt-8 mb-4">4. Insertion Sort</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+For i = 1 to n - 1
+    key = array[i]
+    j = i - 1
+    While j ≥ 0 and array[j] > key
+        array[j + 1] = array[j]
+        j = j - 1
+    array[j + 1] = key
+</code></pre>
+
+<!-- 5. Selection Sort -->
+<h2 class="text-2xl font-bold mt-8 mb-4">5. Selection Sort</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+For i = 0 to n - 1
+    minIndex = i
+    For j = i + 1 to n - 1
+        If array[j] < array[minIndex]
+            minIndex = j
+    Swap array[i] and array[minIndex]
+</code></pre>
+
+<!-- 6. Merge Sort -->
+<h2 class="text-2xl font-bold mt-8 mb-4">6. Merge Sort</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+If length(array) ≤ 1
+    Return array
+Split array into left and right halves
+Left = MergeSort(left)
+Right = MergeSort(right)
+Merge Left and Right
+</code></pre>
+
+<!-- 7. Quick Sort -->
+<h2 class="text-2xl font-bold mt-8 mb-4">7. Quick Sort</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+If low < high
+    pivot = Partition(array, low, high)
+    QuickSort(array, low, pivot - 1)
+    QuickSort(array, pivot + 1, high)
+</code></pre>
+
+<!-- 8. Heap Sort -->
+<h2 class="text-2xl font-bold mt-8 mb-4">8. Heap Sort</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+Build a max heap
+For i = n - 1 down to 1
+    Swap array[0] and array[i]
+    Heapify heap of size i
+</code></pre>
+
+<!-- 9. Dijkstra -->
+<h2 class="text-2xl font-bold mt-8 mb-4">9. Dijkstra’s Algorithm</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+Initialize all distances to infinity
+Set source distance to 0
+While unvisited vertices remain
+    Select vertex with minimum distance
+    Update distances of its neighbors
+</code></pre>
+
+<!-- 10. Fibonacci -->
+<h2 class="text-2xl font-bold mt-8 mb-4">10. Fibonacci Sequence</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+Set a = 0, b = 1
+Print a, b
+For i = 3 to n
+    c = a + b
+    Print c
+    a = b
+    b = c
+</code></pre>
+
+</section>
+
+
+</head>
+<body>
+

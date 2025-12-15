@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>{{title}} — Group DSA</title>
+
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+  :root{--bg:#f8fafc;--card:#ffffff;--muted:#6b7280;--accent:#06b6d4;}
+  .dark{--bg:#0f172a;--card:#0b1220;--muted:#9ca3af;}
+  body{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial; background:var(--bg); color:var(--text,#0f172a); transition:background .25s, color .25s; margin:0}
+  header.site{background:rgba(255,255,255,0.6);backdrop-filter:blur(6px);box-shadow:0 6px 20px rgba(2,6,23,0.06)}
+  .dark header.site{background:rgba(2,6,23,0.6)}
+  nav a{color:var(--accent)}
+  .card{background:var(--card);border-radius:12px;padding:1rem;box-shadow:0 6px 20px rgba(2,6,23,0.06)}
+  pre{background:#0f172a10;padding:.75rem;border-radius:8px;overflow:auto}
+  .visualizer-box{min-height:70px;padding:12px;border-radius:8px;border:1px dashed rgba(0,0,0,0.06);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .stack-item,.queue-item,.tree-node{padding:8px 12px;border-radius:8px;background:linear-gradient(90deg,#06b6d4,#14b8a6);color:white;font-weight:600}
+  .small{font-size:.85rem;color:var(--muted)}
+  .navlink:hover{opacity:.9;transform:translateY(-1px)}
+  /* make buttons obviously clickable */
+  button, a.navlink { cursor: pointer; }
+  /* ensure anchor cards behave like real clickable blocks and receive pointer events */
+  a.card { display: block; pointer-events: auto; position: relative; z-index: 2; text-decoration: none; color: inherit; }
+  /* If anything overlays the anchors, try increasing z-index of main so anchors are above other content */
+  main { position: relative; z-index: 1; }
+</style>
+
+</head>
+<body>
+
+
+</div>
+                <a href= "index.html"
+                   class="mt-8 inline-block px-8 py-3 bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded-full shadow-lg shadow-cyan-500/50 dark:bg-teal-600 dark:hover:bg-teal-700 dark:shadow-teal-500/50 transition-transform hover:scale-105 duration-300 ease-in-out uppercase tracking-wider focus:outline-none focus:ring-4 focus:ring-cyan-300">
+                    Home
+                </a>
+            </div>
+            <section id="contact-us" class="mt-20 mb-6 max-w-2xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl">
+            <h2 class="text-3xl font-extrabold text-center mb-2 text-cyan-900 dark:text-teal-100">Contact Us</h2>
+            <p class="text-center text-gray-600 dark:text-gray-300 mb-8">Have a question, suggestion, or want to connect with Group 1? Reach out below!</p>
+            <form class="space-y-6">
+                <div>
+                    <label for="name" class="block mb-1 text-sm font-medium text-cyan-800 dark:text-teal-300">Name</label>
+                    <input type="text" id="name" name="name" required class="w-full px-4 py-2 rounded-lg border border-cyan-300 dark:border-teal-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-cyan-400 dark:focus:ring-teal-400 transition" placeholder="Your Name">
+                </div>
+                <div>
+                    <label for="email" class="block mb-1 text-sm font-medium text-cyan-800 dark:text-teal-300">Email</label>
+                    <input type="email" id="email" name="email" required class="w-full px-4 py-2 rounded-lg border border-cyan-300 dark:border-teal-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-cyan-400 dark:focus:ring-teal-400 transition" placeholder="your@email.com">
+                </div>
+                <div>
+                    <label for="message" class="block mb-1 text-sm font-medium text-cyan-800 dark:text-teal-300">Message</label>
+                    <textarea id="message" name="message" rows="4" required class="w-full px-4 py-2 rounded-lg border border-cyan-300 dark:border-teal-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-cyan-400 dark:focus:ring-teal-400 transition" placeholder="Type your message here"></textarea>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="px-8 py-3 bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded-full shadow-lg shadow-cyan-500/50 dark:bg-teal-600 dark:hover:bg-teal-700 dark:shadow-teal-500/50 transition transform hover:scale-105 duration-300 ease-in-out uppercase tracking-wider focus:outline-none focus:ring-4 focus:ring-cyan-300">Send Message</button>
+                </div>
+            </form>
+            <div class="text-center mt-8 text-sm text-gray-500 dark:text-gray-400">
+                Or email us at <a href="mailto:group1@example.com" class="text-cyan-600 dark:text-teal-300 underline hover:text-cyan-800 dark:hover:text-teal-400 transition">dsagoup@gmail.com</a>
+            </div>
+        </section>
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>{{title}} — Group DSA</title>
+
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+  :root{--bg:#f8fafc;--card:#ffffff;--muted:#6b7280;--accent:#06b6d4;}
+  .dark{--bg:#0f172a;--card:#0b1220;--muted:#9ca3af;}
+  body{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial; background:var(--bg); color:var(--text,#0f172a); transition:background .25s, color .25s; margin:0}
+  header.site{background:rgba(255,255,255,0.6);backdrop-filter:blur(6px);box-shadow:0 6px 20px rgba(2,6,23,0.06)}
+  .dark header.site{background:rgba(2,6,23,0.6)}
+  nav a{color:var(--accent)}
+  .card{background:var(--card);border-radius:12px;padding:1rem;box-shadow:0 6px 20px rgba(2,6,23,0.06)}
+  pre{background:#0f172a10;padding:.75rem;border-radius:8px;overflow:auto}
+  .visualizer-box{min-height:70px;padding:12px;border-radius:8px;border:1px dashed rgba(0,0,0,0.06);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .stack-item,.queue-item,.tree-node{padding:8px 12px;border-radius:8px;background:linear-gradient(90deg,#06b6d4,#14b8a6);color:white;font-weight:600}
+  .small{font-size:.85rem;color:var(--muted)}
+  .navlink:hover{opacity:.9;transform:translateY(-1px)}
+  /* make buttons obviously clickable */
+  button, a.navlink { cursor: pointer; }
+  /* ensure anchor cards behave like real clickable blocks and receive pointer events */
+  a.card { display: block; pointer-events: auto; position: relative; z-index: 2; text-decoration: none; color: inherit; }
+  /* If anything overlays the anchors, try increasing z-index of main so anchors are above other content */
+  main { position: relative; z-index: 1; }
+</style>
+
+</head>
+<body>
+
+<header class="site p-4 sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <h1 class="text-xl font-extrabold text-teal-600 dark:text-teal-300">GROUP DSA</h1>
+      <!-- Make nav visible on all screen sizes so links are clickable on mobile -->
+      <nav class="flex gap-4 text-sm" aria-label="Main navigation">
+        <a class="navlink" href="{{ url_for('home') }}" data-fallback="index.html">Home</a>
+        <a class="navlink" href="{{ url_for('members') }}" data-fallback="members.html">Members</a>
+        <a class="navlink" href="{{ url_for('contact us') }}" data-fallback="contact us.html">Contact us</a>
+        
+        
+      </nav>
+    </div>
+    <div class="flex items-center gap-3">
+      <button id="theme-btn" type="button" class="px-3 py-2 rounded-full text-sm bg-white/70 dark:bg-black/40" aria-pressed="false">darkMode</button>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-6xl mx-auto p-6 space-y-6">
+  <section class="card">
+    <h2 class="text-2xl font-bold">Welcome — Group DSA</h2>
+    <p class="small mt-2">
+      <!-- add welcome text here -->
+    </p>
+    <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- data-fallback ensures these links work when opened locally (file://) or when Jinja isn't applied -->
+      <a href="{{ url_for('algorithms') }}" data-fallback="Algorithms.html" class="card text-center hover:shadow-lg navlink">Algorithms</a>
+      <a href="{{ url_for('pseudocode') }}" data-fallback="Pseudocode.html" class="card text-center hover:shadow-lg navlink">Pseudocode</a>
+      <a href="{{ url_for('visualizers') }}" data-fallback="Visualizers.html" class="card text-center hover:shadow-lg navlink">Visualizers</a>
+    </div>
+  </section>
+
+  <!-- other page content can go here -->
+
+</main>
+
+<script>
+/* theme persistence */
+(function(){
+  const html = document.documentElement;
+  const btn = document.getElementById('theme-btn');
+  const saved = localStorage.getItem('theme');
+  if(saved === 'dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)){
+    html.classList.add('dark');
+    if(btn) btn.setAttribute('aria-pressed', 'true');
+  }
+  if(btn){
+    btn.addEventListener('click', ()=> {
+      html.classList.toggle('dark');
+       html.classList.toggle('ligth');
+      const isDark = html.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      btn.setAttribute('aria-pressed', String(isDark));
+    });
+  }
+
+  // Repair anchors when template placeholders aren't rendered (useful for local testing)
+  document.querySelectorAll('a.navlink, a.card').forEach(a => {
+    try {
+      const href = a.getAttribute('href') || '';
+      // If href still contains Jinja brackets or is empty, use data-fallback
+      if (href.includes('{{') || href.trim() === '') {
+        const fallback = a.getAttribute('data-fallback') || '#';
+        a.setAttribute('href', fallback);
+      }
+      // Extra debug: if the link still doesn't navigate, allow click-based navigation fallback
+      a.addEventListener('click', function(e){
+        const h = this.getAttribute('href');
+        if (!h || h === '#') {
+          e.preventDefault();
+          const fb = this.getAttribute('data-fallback');
+          if (fb) window.location.href = fb;
+        }
+      });
+    } catch (err) {
+      // ignore errors
+      console.error('anchor repair error', err);
+    }
+  });
+
+  // Helpful dev debug: if clicks aren't working, check for overlay elements
+  // Uncomment the line below while debugging to visually see if something overlays the main content
+  // document.body.style.outline = '1px dashed rgba(255,0,0,0.2)';
+})();
+</script>
+
+</body>
+</html>

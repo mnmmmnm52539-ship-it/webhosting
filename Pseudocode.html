@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vsualizers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
+            box-shadow: 0 12px 32px rgba(6,182,212,0.13), 0 1.5px 12px rgba(45,212,191,0.06);
+        }
+        .dark .glass {
+            background: rgba(21, 28, 35, 0.82);
+            box-shadow: 0 12px 32px rgba(20,184,166,0.17), 0 1.5px 12px rgba(34,197,94,0.08);
+        }
+        .frost-border {
+            border: 4px solid rgba(255,255,255,0.95);
+        }
+        .dark .frost-border {
+            border: 4px solid rgba(31, 41, 55, 0.7);
+        }
+        .avatar-glow {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 9999px;
+            z-index: -1;
+            pointer-events: none;
+            background: conic-gradient(
+                from 90deg at 58% 50%,
+                #06b6d4 0deg,
+                #14b8a6 45deg,
+                #a5f3fc 180deg,
+                #0f766e 270deg,
+                #06b6d4 360deg
+            );
+            opacity: 0.22;
+            filter: blur(16px);
+            animation: glow-spin2 5s linear infinite;
+        }
+        @keyframes glow-spin2 {
+            to {transform: rotate(360deg);}
+        }
+        .skill-chip {
+            border: 2px solid #06b6d4;
+            background: rgba(6,182,212,0.09);
+            color: #164e63;
+            padding: 0.35em 1.05em;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.98em;
+            margin-bottom: 0.3em;
+            margin-right: 0.4em;
+            display: inline-block;
+            transition: border 0.2s, background 0.2s, color 0.2s, transform .18s;
+        }
+        .skill-chip:hover {
+            border: 2.5px solid #22d3ee;
+            background: #a5f3fc;
+            color: #075985;
+            transform: scale(1.07);
+        }
+        .dark .skill-chip {
+            border: 2px solid #14b8a6;
+            background: rgba(13,148,136,0.13);
+            color: #a7f3d0;
+        }
+        .dark .skill-chip:hover {
+            border: 2.5px solid #34d399;
+            background: #115e59;
+            color: #6ee7b7;
+        }
+        .back-link { transition: all 0.2s; }
+        .back-link:hover { transform: translateX(-6px) scale(1.07); }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#06b6d4',
+                        'primary-dark': '#0d9488'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-100 via-cyan-300 to-blue-50 dark:from-gray-900 dark:via-teal-900 dark:to-gray-900 text-gray-900 dark:text-gray-100 font-inter transition-colors duration-500">
+
+    <main class="w-full py-12">
+        <header class="w-full max-w-4xl mx-auto mb-2 px-4 flex justify-between items-center sticky top-0 z-30 bg-transparent">
+            <a href="index.html" class="back-link flex items-center gap-2 text-lg font-bold text-cyan-600 dark:text-teal-300">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Back To Main
+            </a>
+        </header>
+        
+
+<!-- Pseudocode Section -->
+<section id="pseudocode" class="p-6 bg-gray-200">
+  <h2 class="text-2xl font-bold mb-4">10 Pseudocode</h2>
+  <ol class="list-decimal list-inside space-y-2">
+    <li>Binary Search</li>
+    <li>Bubble Sort</li>
+    <li>Selection Sort</li>
+    <li>Dijkstra's Algorithm</li>
+    <li>Depth First Search (DFS)</li>
+    <li>Breadth First Search (BFS)</li>
+    <li>Floyd–Warshall Algorithm</li>
+    <li>Heap Sort</li>
+    <li>Insertion Sort</li>
+    <li>Fibonacci Sequence</li>
+  </ol>
+</section>
+
+<section class="p-6">
+
+<!-- 1. Binary Search -->
+<h2 class="text-2xl font-bold mb-4">1. Binary Search</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+1. Set low = 0, high = n - 1
+2. While low ≤ high
+3.     mid = (low + high) / 2
+4.     If array[mid] == target, return mid
+5.     Else if array[mid] < target, low = mid + 1
+6.     Else high = mid - 1
+7. Return -1
+</code></pre>
+
+<!-- 2. Bubble Sort -->
+<h2 class="text-2xl font-bold mt-8 mb-4">2. Bubble Sort</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+1. For i = 0 to n - 1
+2.     For j = 0 to n - i - 2
+3.         If array[j] > array[j + 1]
+4.             Swap array[j] and array[j + 1]
+</code></pre>
+
+<!-- 3. Selection Sort -->
+<h2 class="text-2xl font-bold mt-8 mb-4">3. Selection Sort</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+1. For i = 0 to n - 1
+2.     minIndex = i
+3.     For j = i + 1 to n - 1
+4.         If array[j] < array[minIndex]
+5.             minIndex = j
+6.     Swap array[i] and array[minIndex]
+</code></pre>
+
+<!-- 4. Dijkstra -->
+<h2 class="text-2xl font-bold mt-8 mb-4">4. Dijkstra’s Algorithm</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+1. Set distance of all vertices to infinity
+2. Set distance of source vertex to 0
+3. While unvisited vertices exist
+4.     Select vertex u with minimum distance
+5.     Mark u as visited
+6.     For each neighbor v of u
+7.         If distance[u] + weight(u,v) < distance[v]
+8.             Update distance[v]
+</code></pre>
+
+<!-- 5. DFS -->
+<h2 class="text-2xl font-bold mt-8 mb-4">5. Depth First Search (DFS)</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+1. Mark current node as visited
+2. For each adjacent node not visited
+3.     Call DFS recursively
+</code></pre>
+
+<!-- 6. BFS -->
+<h2 class="text-2xl font-bold mt-8 mb-4">6. Breadth First Search (BFS)</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+1. Enqueue starting node and mark as visited
+2. While queue is not empty
+3.     Dequeue a node and visit it
+4.     Enqueue all unvisited adjacent nodes
+</code></pre>
+
+<!-- 7. Floyd-Warshall -->
+<h2 class="text-2xl font-bold mt-8 mb-4">7. Floyd–Warshall Algorithm</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+1. Initialize distance matrix
+2. For k = 0 to n - 1
+3.     For i = 0 to n - 1
+4.         For j = 0 to n - 1
+5.             If dist[i][k] + dist[k][j] < dist[i][j]
+6.                 dist[i][j] = dist[i][k] + dist[k][j]
+</code></pre>
+
+<!-- 8. Heap Sort -->
+<h2 class="text-2xl font-bold mt-8 mb-4">8. Heap Sort</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+1. Build a max heap from the array
+2. For i = n - 1 down to 1
+3.     Swap array[0] and array[i]
+4.     Heapify reduced heap
+</code></pre>
+
+<!-- 9. Insertion Sort -->
+<h2 class="text-2xl font-bold mt-8 mb-4">9. Insertion Sort</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+1. For i = 1 to n - 1
+2.     key = array[i]
+3.     j = i - 1
+4.     While j ≥ 0 and array[j] > key
+5.         array[j + 1] = array[j]
+6.         j = j - 1
+7.     array[j + 1] = key
+</code></pre>
+
+<!-- 10. Fibonacci -->
+<h2 class="text-2xl font-bold mt-8 mb-4">10. Fibonacci Sequence</h2>
+<pre class="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto"><code>
+1. Set a = 0, b = 1
+2. Print a, b
+3. For i = 3 to n
+4.     c = a + b
+5.     Print c
+6.     a = b, b = c
+</code></pre>
+
+</section>
+
+</code>
+    </pre>
+</section>

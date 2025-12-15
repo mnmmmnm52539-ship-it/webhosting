@@ -78,6 +78,56 @@
         }
         .back-link { transition: all 0.2s; }
         .back-link:hover { transform: translateX(-6px) scale(1.07); }
+
+        /* Binary tree circle styles */
+        #treeBox {
+            min-height: 120px;
+            padding: 12px;
+        }
+        .tree-level {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        .node-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            min-width: 56px; /* keeps layout stable */
+        }
+        .tree-node {
+            width: 48px;
+            height: 48px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, #c7b3ff 0%, #b794f4 100%);
+            color: #2b1450;
+            font-weight: 700;
+            box-shadow: 0 6px 18px rgba(99,102,241,0.18), 0 2px 6px rgba(99,102,241,0.08);
+            border: 2px solid rgba(124,58,237,0.15);
+            user-select: none;
+        }
+        .tree-node:active { transform: scale(0.98); }
+
+        .connector {
+            width: 2px;
+            height: 14px;
+            margin-top: 6px;
+            background: linear-gradient(180deg, rgba(59,130,246,0.9), rgba(124,58,237,0.9));
+            border-radius: 2px;
+        }
+
+        /* small responsive tweaks */
+        @media (max-width: 640px) {
+            .tree-node { width: 40px; height: 40px; font-size: 0.9rem; }
+            .node-wrap { min-width: 44px; gap: 0.25rem; }
+            .tree-level { gap: 0.5rem; }
+        }
     </style>
     <script>
         tailwind.config = {
@@ -315,18 +365,51 @@
                     renderTree();
                 }
 
+                // New: render tree as rows of circular nodes (level-order)
                 function renderTree() {
                     treeBox.innerHTML = '';
-                    // simple pre-order layout: just show nodes as chips
-                    (function traverse(n) {
-                        if (!n) return;
-                        const d = document.createElement('div');
-                        d.className = 'px-3 py-1 bg-purple-200 rounded';
-                        d.textContent = n.v;
-                        treeBox.appendChild(d);
-                        traverse(n.l);
-                        traverse(n.r);
-                    })(root);
+                    if (!root) return;
+
+                    // build levels via BFS
+                    const levels = [];
+                    const q = [{ node: root, lvl: 0 }];
+                    while (q.length) {
+                        const { node, lvl } = q.shift();
+                        if (!levels[lvl]) levels[lvl] = [];
+                        levels[lvl].push(node);
+                        if (node.l) q.push({ node: node.l, lvl: lvl + 1 });
+                        if (node.r) q.push({ node: node.r, lvl: lvl + 1 });
+                    }
+
+                    // render each level as a centered row
+                    levels.forEach((nodes) => {
+                        const row = document.createElement('div');
+                        row.className = 'tree-level';
+                        nodes.forEach(n => {
+                            const wrap = document.createElement('div');
+                            wrap.className = 'node-wrap';
+
+                            const nd = document.createElement('div');
+                            nd.className = 'tree-node';
+                            nd.textContent = n.v;
+                            wrap.appendChild(nd);
+
+                            // small connector if node has children
+                            if (n.l || n.r) {
+                                const conn = document.createElement('div');
+                                conn.className = 'connector';
+                                wrap.appendChild(conn);
+                            } else {
+                                // keep spacing consistent
+                                const spacer = document.createElement('div');
+                                spacer.style.height = '20px';
+                                wrap.appendChild(spacer);
+                            }
+
+                            row.appendChild(wrap);
+                        });
+                        treeBox.appendChild(row);
+                    });
                 }
 
                 function inorder(n, a) {
